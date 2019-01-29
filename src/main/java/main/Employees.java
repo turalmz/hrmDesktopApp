@@ -6,12 +6,10 @@
 package main;
 
 import com.company.Context;
-import com.company.dao.impl.EmployeeDaoImpl;
 import com.company.dao.inter.EmployeeDaoInter;
 import com.company.entity.Employee;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -42,7 +40,7 @@ public class Employees extends javax.swing.JFrame {
         Vector vectorHeaders = new Vector();
 
         vectorHeaders.add("id");
-        vectorHeaders.add("Fullname");
+        vectorHeaders.add("Firstname");
         vectorHeaders.add("Hire Date");
 
         vectorHeaders.add("Email");
@@ -55,7 +53,7 @@ public class Employees extends javax.swing.JFrame {
             Vector row = new Vector();
             row.add(us.getId());
 
-            row.add(us.getFullname());
+            row.add(us.getFirstname());
 
             try {
                 Date dt = us.getHireDate();
@@ -249,8 +247,8 @@ public class Employees extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
-//        UserForm uf = new UserForm();
-//        uf.setVisible(true);
+        EmployeeForm uf = new EmployeeForm();
+        uf.setVisible(true);
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -262,8 +260,8 @@ public class Employees extends javax.swing.JFrame {
         if (row > -1) {
 
             String value = tblUsers.getModel().getValueAt(row, column).toString();
-//            UserForm uf = new UserForm(Integer.parseInt(value));
-//            uf.setVisible(true);
+            EmployeeForm uf = new EmployeeForm(Integer.parseInt(value));
+            uf.setVisible(true);
 
         }
     }//GEN-LAST:event_btnUpdateActionPerformed

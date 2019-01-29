@@ -9,15 +9,18 @@ import com.company.entity.Employee;
 import com.company.Context;
 import com.company.dao.inter.CountryDaoInter;
 import com.company.dao.inter.EmployeeDaoInter;
+import com.company.entity.Country;
+import config.Config;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.text.ParseException;
 import javax.swing.JFrame;
 
 /**
  *
  * @author TURAL
  */
-public class Main extends javax.swing.JFrame {
+public class EmployeeForm extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -27,26 +30,47 @@ public class Main extends javax.swing.JFrame {
 
     private CountryDaoInter countryDao = Context.instanceCountryDao();
 
-    public Main() {
+    public EmployeeForm() {
         initComponents();
-        currentEmployee = employeeDao.getById(1);
-        fillUserComponent();
+        currentEmployee = new Employee(null);
+        Config.currentEmployee = new Employee(null);
+        fillEmployeeComponent();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
 
-    private void fillUserComponent() {
+    public EmployeeForm(int i) {
+        initComponents();
+        currentEmployee = employeeDao.getById(i);
+        Config.currentEmployee = employeeDao.getById(i);
+        fillEmployeeComponent();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    }
+
+    private void fillEmployeeComponent() {
         txtName.setText(currentEmployee.getFirstname());
         txtSurname.setText(currentEmployee.getLastname());
-        txtAreaProfile.setText(currentEmployee.getPhoneNumber());
-        Date dt = currentEmployee.getHireDate();
-        String sdt = sdf.format(dt);
-        txtBirthdate.setText(sdt);
-        txtEmail.setText(currentEmployee.getSalary().toString());
-        txtPhone.setText(currentEmployee.getCommissionPct().toString());
-        txtAddress.setText(currentEmployee.getJob().getTitle());
+        try {
+            Date dt = currentEmployee.getHireDate();
+            String sdt = sdf.format(dt);
+            txtBirthdate.setText(sdt);
+        } catch (Exception ex) {
+            System.err.println(ex);
+
+        }
+        txtEmail.setText(currentEmployee.getEmail());
+
+        txtPhone.setText(currentEmployee.getPhoneNumber());
+        try {
+            txtAddress.setText(currentEmployee.getJob().getTitle());
+        } catch (Exception ex) {
+            System.err.println(ex);
+
+        }
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,9 +88,6 @@ public class Main extends javax.swing.JFrame {
         txtSurname = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         tpUserInfo = new javax.swing.JTabbedPane();
-        pnlProfile = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtAreaProfile = new javax.swing.JTextArea();
         pnlDetails = new javax.swing.JPanel();
         lbAdderss = new javax.swing.JLabel();
         lbPhone = new javax.swing.JLabel();
@@ -78,7 +99,7 @@ public class Main extends javax.swing.JFrame {
         txtPhone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtBirthdate = new javax.swing.JTextField();
-        cbNationality = new javax.swing.JComboBox<>();
+        javax.swing.JComboBox<Country> cbNationality = new javax.swing.JComboBox<>();
         cbBirthplace = new javax.swing.JComboBox<>();
         pnlHistory = new javax.swing.JPanel();
 
@@ -110,41 +131,24 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(lbSurname)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40)
+                .addGap(57, 57, 57)
                 .addComponent(btnSave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlUserInfoLayout.setVerticalGroup(
             pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(37, 37, 37)
                 .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave))
+                .addGap(16, 16, 16)
                 .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbSurname)
-                    .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSave))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
-
-        txtAreaProfile.setColumns(20);
-        txtAreaProfile.setRows(5);
-        jScrollPane1.setViewportView(txtAreaProfile);
-
-        javax.swing.GroupLayout pnlProfileLayout = new javax.swing.GroupLayout(pnlProfile);
-        pnlProfile.setLayout(pnlProfileLayout);
-        pnlProfileLayout.setHorizontalGroup(
-            pnlProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-        );
-        pnlProfileLayout.setVerticalGroup(
-            pnlProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-        );
-
-        tpUserInfo.addTab("Profile", pnlProfile);
 
         lbAdderss.setText("Adderss");
 
@@ -157,15 +161,6 @@ public class Main extends javax.swing.JFrame {
         lbBirthplace.setText("Birthplace");
 
         lbNationality.setText("Nationality");
-
-        cbNationality.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "American", "Azeri", "Russian", "Turk", "Chinese" }));
-        cbNationality.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbNationalityActionPerformed(evt);
-            }
-        });
-
-        cbBirthplace.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azerbaijan", "America", "Japan" }));
 
         javax.swing.GroupLayout pnlDetailsLayout = new javax.swing.GroupLayout(pnlDetails);
         pnlDetails.setLayout(pnlDetailsLayout);
@@ -270,22 +265,31 @@ public class Main extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
+        currentEmployee.setFirstname(txtName.getText());
+        currentEmployee.setLastname(txtSurname.getText());
 
-        
-//        try {
-//          long l = sdf.parse(txtBirthdate.getText()).getTime();
-//          Date bd = new Date(l);
-////          currentEmployee.setBirthDate(bd);
-//
-//        } catch (ParseException ex) {}
+        try {
+            long l = sdf.parse(txtBirthdate.getText()).getTime();
+            Date bd = new Date(l);
+            currentEmployee.setHireDate(bd);
 
-          
+        } catch (ParseException ex) {
+            System.out.print("Houston, we have a problem");
+        }
+
+        currentEmployee.setSalary(0.0);
+        currentEmployee.setCommissionPct(0.0);
+        currentEmployee.setPhoneNumber(txtPhone.getText());
+        currentEmployee.setEmail(txtEmail.getText());
+
+        if (currentEmployee.getId() != null) {
+            employeeDao.updateEmployee(currentEmployee);
+        } else if (currentEmployee.getId() == null) {
+            employeeDao.insertEmployee(currentEmployee);
+        }
+
 
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void cbNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNationalityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbNationalityActionPerformed
 
     /**
      * @param args the command line arguments
@@ -304,30 +308,30 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new EmployeeForm().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbBirthplace;
-    private javax.swing.JComboBox<String> cbNationality;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<Country> cbBirthplace;
     private javax.swing.JLabel lbAdderss;
     private javax.swing.JLabel lbBirthday;
     private javax.swing.JLabel lbBirthplace;
@@ -338,11 +342,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lbSurname;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlHistory;
-    private javax.swing.JPanel pnlProfile;
     private javax.swing.JPanel pnlUserInfo;
     private javax.swing.JTabbedPane tpUserInfo;
     private javax.swing.JTextField txtAddress;
-    private javax.swing.JTextArea txtAreaProfile;
     private javax.swing.JTextField txtBirthdate;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
