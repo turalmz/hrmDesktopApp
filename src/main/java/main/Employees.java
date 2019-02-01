@@ -24,7 +24,7 @@ public class Employees extends javax.swing.JFrame {
     /**
      * Creates new form Users
      */
-    private final EmployeeDaoInter employeeDao =  Context.instanceEmployeeDao();
+    private final EmployeeDaoInter employeeDao = Context.instanceEmployeeDao();
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public Employees() {
@@ -74,7 +74,6 @@ public class Employees extends javax.swing.JFrame {
         tblUsers.setModel(tableModel);
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,6 +224,7 @@ public class Employees extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
+        generateEmployees();
 
 
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -242,7 +242,7 @@ public class Employees extends javax.swing.JFrame {
             employeeDao.removeEmployee(Integer.parseInt(value));
 
         }
-
+        generateEmployees();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed

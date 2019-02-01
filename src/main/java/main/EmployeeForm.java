@@ -10,6 +10,7 @@ import com.company.Context;
 import com.company.dao.inter.CountryDaoInter;
 import com.company.dao.inter.EmployeeDaoInter;
 import com.company.entity.Country;
+import com.company.entity.Job;
 import config.Config;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
@@ -56,14 +57,14 @@ public class EmployeeForm extends javax.swing.JFrame {
         try {
             Date dt = currentEmployee.getHireDate();
             String sdt = sdf.format(dt);
-            txtBirthdate.setText(sdt);
+            txtHireDate.setText(sdt);
         } catch (Exception ex) {
             System.err.println(ex);
 
         }
         txtEmail.setText(currentEmployee.getEmail());
 
-        txtPhone.setText(currentEmployee.getPhoneNumber());
+        txtPhoneNumber.setText(currentEmployee.getPhoneNumber());
         try {
             txtAddress.setText(currentEmployee.getJob().getTitle());
         } catch (Exception ex) {
@@ -92,16 +93,22 @@ public class EmployeeForm extends javax.swing.JFrame {
         lbAdderss = new javax.swing.JLabel();
         lbPhone = new javax.swing.JLabel();
         lbEmail = new javax.swing.JLabel();
-        lbBirthday = new javax.swing.JLabel();
-        lbBirthplace = new javax.swing.JLabel();
-        lbNationality = new javax.swing.JLabel();
+        lbHireDate = new javax.swing.JLabel();
+        lbJob = new javax.swing.JLabel();
+        lbCountry = new javax.swing.JLabel();
         txtAddress = new javax.swing.JTextField();
-        txtPhone = new javax.swing.JTextField();
+        txtPhoneNumber = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        txtBirthdate = new javax.swing.JTextField();
+        txtHireDate = new javax.swing.JTextField();
         javax.swing.JComboBox<Country> cbNationality = new javax.swing.JComboBox<>();
-        cbBirthplace = new javax.swing.JComboBox<>();
+        cbJob = new javax.swing.JComboBox<>();
+        lbSalary = new javax.swing.JLabel();
+        lbCommissionPct = new javax.swing.JLabel();
+        txtSalary = new javax.swing.JTextField();
+        txtCommissionPct = new javax.swing.JTextField();
         pnlHistory = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,11 +163,15 @@ public class EmployeeForm extends javax.swing.JFrame {
 
         lbEmail.setText("Email");
 
-        lbBirthday.setText("Birthdate");
+        lbHireDate.setText("Hiredate");
 
-        lbBirthplace.setText("Birthplace");
+        lbJob.setText("Job");
 
-        lbNationality.setText("Nationality");
+        lbCountry.setText("Country");
+
+        lbSalary.setText("Salary");
+
+        lbCommissionPct.setText("CommissionPct");
 
         javax.swing.GroupLayout pnlDetailsLayout = new javax.swing.GroupLayout(pnlDetails);
         pnlDetails.setLayout(pnlDetailsLayout);
@@ -169,7 +180,7 @@ public class EmployeeForm extends javax.swing.JFrame {
             .addGroup(pnlDetailsLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbNationality)
+                    .addComponent(lbCountry)
                     .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDetailsLayout.createSequentialGroup()
                             .addComponent(lbEmail)
@@ -178,7 +189,7 @@ public class EmployeeForm extends javax.swing.JFrame {
                         .addGroup(pnlDetailsLayout.createSequentialGroup()
                             .addComponent(lbPhone)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(pnlDetailsLayout.createSequentialGroup()
                             .addComponent(lbAdderss)
                             .addGap(39, 39, 39)
@@ -186,15 +197,23 @@ public class EmployeeForm extends javax.swing.JFrame {
                         .addGroup(pnlDetailsLayout.createSequentialGroup()
                             .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(pnlDetailsLayout.createSequentialGroup()
-                                    .addComponent(lbBirthday)
+                                    .addComponent(lbHireDate)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDetailsLayout.createSequentialGroup()
-                                    .addComponent(lbBirthplace)
+                                .addGroup(pnlDetailsLayout.createSequentialGroup()
+                                    .addComponent(lbJob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGap(31, 31, 31)))
                             .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtBirthdate, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                .addComponent(txtHireDate, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                                 .addComponent(cbNationality, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbBirthplace, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cbJob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(pnlDetailsLayout.createSequentialGroup()
+                            .addComponent(lbCommissionPct)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCommissionPct, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDetailsLayout.createSequentialGroup()
+                            .addComponent(lbSalary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(39, 39, 39)
+                            .addComponent(txtSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(434, Short.MAX_VALUE))
         );
         pnlDetailsLayout.setVerticalGroup(
@@ -207,37 +226,64 @@ public class EmployeeForm extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPhone)
-                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbBirthday)
-                    .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbHireDate)
+                    .addComponent(txtHireDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbBirthplace)
-                    .addComponent(cbBirthplace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbJob)
+                    .addComponent(cbJob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbNationality)
+                    .addComponent(lbCountry)
                     .addComponent(cbNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSalary)
+                    .addComponent(txtSalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbCommissionPct)
+                    .addComponent(txtCommissionPct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         tpUserInfo.addTab("Details", pnlDetails);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout pnlHistoryLayout = new javax.swing.GroupLayout(pnlHistory);
         pnlHistory.setLayout(pnlHistoryLayout);
         pnlHistoryLayout.setHorizontalGroup(
             pnlHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGroup(pnlHistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(372, Short.MAX_VALUE))
         );
         pnlHistoryLayout.setVerticalGroup(
             pnlHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 242, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHistoryLayout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tpUserInfo.addTab("Job History", pnlHistory);
@@ -269,7 +315,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         currentEmployee.setLastname(txtSurname.getText());
 
         try {
-            long l = sdf.parse(txtBirthdate.getText()).getTime();
+            long l = sdf.parse(txtHireDate.getText()).getTime();
             Date bd = new Date(l);
             currentEmployee.setHireDate(bd);
 
@@ -279,7 +325,7 @@ public class EmployeeForm extends javax.swing.JFrame {
 
         currentEmployee.setSalary(0.0);
         currentEmployee.setCommissionPct(0.0);
-        currentEmployee.setPhoneNumber(txtPhone.getText());
+        currentEmployee.setPhoneNumber(txtPhoneNumber.getText());
         currentEmployee.setEmail(txtEmail.getText());
 
         if (currentEmployee.getId() != null) {
@@ -331,24 +377,30 @@ public class EmployeeForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<Country> cbBirthplace;
+    private javax.swing.JComboBox<Job> cbJob;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbAdderss;
-    private javax.swing.JLabel lbBirthday;
-    private javax.swing.JLabel lbBirthplace;
+    private javax.swing.JLabel lbCommissionPct;
+    private javax.swing.JLabel lbCountry;
     private javax.swing.JLabel lbEmail;
+    private javax.swing.JLabel lbHireDate;
+    private javax.swing.JLabel lbJob;
     private javax.swing.JLabel lbName;
-    private javax.swing.JLabel lbNationality;
     private javax.swing.JLabel lbPhone;
+    private javax.swing.JLabel lbSalary;
     private javax.swing.JLabel lbSurname;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlHistory;
     private javax.swing.JPanel pnlUserInfo;
     private javax.swing.JTabbedPane tpUserInfo;
     private javax.swing.JTextField txtAddress;
-    private javax.swing.JTextField txtBirthdate;
+    private javax.swing.JTextField txtCommissionPct;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtHireDate;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtPhoneNumber;
+    private javax.swing.JTextField txtSalary;
     private javax.swing.JTextField txtSurname;
     // End of variables declaration//GEN-END:variables
 }
